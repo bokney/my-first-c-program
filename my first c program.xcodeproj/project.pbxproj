@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3F7CF7F02BE087500073F4C8 /* buckets.c in Sources */ = {isa = PBXBuildFile; fileRef = 3F7CF7EF2BE087500073F4C8 /* buckets.c */; };
 		3FE4CADD2BD5869D00896AAC /* lists.c in Sources */ = {isa = PBXBuildFile; fileRef = 3FE4CADC2BD5869D00896AAC /* lists.c */; };
 		3FE4CAE02BD586AD00896AAC /* stacks.c in Sources */ = {isa = PBXBuildFile; fileRef = 3FE4CADF2BD586AD00896AAC /* stacks.c */; };
 		3FE4CAE32BD588F200896AAC /* queues.c in Sources */ = {isa = PBXBuildFile; fileRef = 3FE4CAE22BD588F200896AAC /* queues.c */; };
@@ -26,6 +27,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		3F7CF7EE2BE087500073F4C8 /* buckets.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = buckets.h; sourceTree = "<group>"; };
+		3F7CF7EF2BE087500073F4C8 /* buckets.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = buckets.c; sourceTree = "<group>"; };
 		3FE4CADB2BD5869D00896AAC /* lists.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = lists.h; sourceTree = "<group>"; };
 		3FE4CADC2BD5869D00896AAC /* lists.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = lists.c; sourceTree = "<group>"; };
 		3FE4CADE2BD586AD00896AAC /* stacks.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = stacks.h; sourceTree = "<group>"; };
@@ -73,6 +76,8 @@
 				3FE4CADF2BD586AD00896AAC /* stacks.c */,
 				3FE4CAE12BD588F200896AAC /* queues.h */,
 				3FE4CAE22BD588F200896AAC /* queues.c */,
+				3F7CF7EE2BE087500073F4C8 /* buckets.h */,
+				3F7CF7EF2BE087500073F4C8 /* buckets.c */,
 			);
 			path = "my first c program";
 			sourceTree = "<group>";
@@ -135,6 +140,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3FF9AA412BD33FA100106E48 /* main.c in Sources */,
+				3F7CF7F02BE087500073F4C8 /* buckets.c in Sources */,
 				3FE4CAE32BD588F200896AAC /* queues.c in Sources */,
 				3FE4CAE02BD586AD00896AAC /* stacks.c in Sources */,
 				3FE4CADD2BD5869D00896AAC /* lists.c in Sources */,
