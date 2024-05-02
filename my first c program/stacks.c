@@ -9,7 +9,7 @@
 #include "stacks.h"
 
 stack *stackCreate(void) {
-    return listNodeCreate();
+    return NULL;
 }
 
 void stackDestroy(stack *target) {

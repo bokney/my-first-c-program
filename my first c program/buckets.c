@@ -7,6 +7,8 @@
 #include "buckets.h"
 #include "lists.h"
 
+// // // // // // // // // // // // // // // //
+
 struct bucket_ {
     listNode *list;
     void *(*create)(void);
@@ -14,13 +16,15 @@ struct bucket_ {
     void (*destroy)(void *data);
 };
 
+// // // // // // // // // // // // // // // //
 
-bucket *bucketCreate(void) {
+void *bucketCreate(void) {
     bucket *newBucket = (bucket *) malloc(sizeof(bucket));
     if (newBucket == NULL) {
         printf("error creating new bucket\n");
         exit(1);
     }
+    bucketInit(newBucket);
     return newBucket;
 }
 
@@ -41,6 +45,8 @@ void bucketDestroy(bucket *target) {
         free(listRemoveNode(&target->list, 0));
     }
 }
+
+// // // // // // // // // // // // // // // //
 
 void bucketSetCreate(bucket *target, void *(*func)(void)) {
     if (target == NULL) {
@@ -79,6 +85,8 @@ void bucketSetRoutines(bucket *target,
     target->destroy = destroy;
 }
 
+// // // // // // // // // // // // // // // //
+
 void *bucketRequest(bucket *target) {
     if (target == NULL) {
         printf("error - requested from NULL bucket\n");
@@ -86,7 +94,7 @@ void *bucketRequest(bucket *target) {
     }
     void *data = NULL;
     if (target->list == NULL) {
-        data = target->create;
+        data = target->create();
     } else {
         data = listRemoveNode(&target->list, 0);
     }
@@ -103,4 +111,14 @@ void bucketReturn(bucket *target, void *data) {
         exit(1);
     }
     listPrepend(&target->list, data);
+}
+
+// // // // // // // // // // // // // // // //
+
+void bucketQuerey(bucket *target) {
+    if (target == NULL) {
+        printf("error - tried to querey a NULL bucket\n");
+        exit(1);
+    }
+    printf("Bucket has %u instances stored\n", listLength(target->list));
 }

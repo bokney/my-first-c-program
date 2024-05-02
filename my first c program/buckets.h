@@ -10,7 +10,7 @@
 
 typedef struct bucket_ bucket;
 
-bucket *bucketCreate(void);
+void *bucketCreate(void);
 void bucketInit(bucket *target);
 void bucketDestroy(bucket *target);
 
@@ -24,5 +24,7 @@ void bucketSetRoutines(bucket *target,
 
 void *bucketRequest(bucket *target);
 void bucketReturn(bucket *target, void *data);
+
+void bucketQuerey(bucket *target);
 
 #endif /* buckets_h */

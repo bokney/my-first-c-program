@@ -18,6 +18,7 @@ queue *queueCreate(void) {
 }
 
 void queueDestroy(queue *target) {
+    /*
     if (target != NULL) {
         listNode *traversal = target->list;
         listNode *previous = traversal;
@@ -28,6 +29,7 @@ void queueDestroy(queue *target) {
         }
     }
     free(target);
+     */
 }
 
 void queuePush(queue *target, void *data) {

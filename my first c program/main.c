@@ -4,12 +4,47 @@
 //  Created by Cris Jarvis on 20/04/2024.
 
 #include <stdio.h>
+#include <stdlib.h>
 #include "lists.h"
+#include "buckets.h"
+
+typedef struct blob_ {
+    //char string[32];
+    int number;
+} blob;
+
+void *blobCreate(void) {
+    blob *newBlob = (blob *) malloc(sizeof(blob));
+    return newBlob;
+}
+
+void blobInit(void *target) {
+    blob *daBlob = target;
+    //for (int i = 0; i < 32; i++) target->string[i] = 48 + i;
+    daBlob->number = 0;
+}
+
+void blobDestroy(void *target) {
+    blob *daBlob = target;
+    if (daBlob == NULL) {
+        printf("error - tried to destroy a NULL blob");
+    }
+    free(daBlob);
+}
+
+void printBlob(blob *target) {
+    blob *daBlob = target;
+    if (daBlob != NULL) {
+        printf("blob has number: %i\n", daBlob->number);
+    } else {
+        
+    }
+}
 
 void printList(listNode *list) {
-    while (list) {
-        printf("[%u] ", (int) list->data);
-        list = list->next;
+    int length = listLength(list);
+    for (int i = 0; i < length; i++) {
+        printf("[%u] ", listRetrieve(list, i));
     }
     printf("\n");
 }
@@ -18,11 +53,11 @@ void printListLength(listNode *list) {
     printf("list has length %u\n", listLength(list));
 }
 
-void printReportSpare() {
-    printf("there are currently %u spare nodes\n", listNodeCountSpare());
+void printReportSpare(void) {
+    //printf("there are currently %u spare nodes\n", listNodeCountSpare());
 }
 
-void printNewLine() {
+void printNewLine(void) {
     printf("\n");
 }
 
@@ -91,6 +126,21 @@ int main(int argc, const char * argv[]) {
     printNewLine();
     
     printReportSpare();
+    
+    
+    bucket *blobBucket = bucketCreate();
+    bucketSetRoutines(blobBucket, blobCreate, blobInit, blobDestroy);
+    bucketQuerey(blobBucket);
+    
+    blob *getOne = bucketRequest(blobBucket);
+    
+    
+    //getOne->string = "hello there";
+    getOne->number = 44;
+    
+    printBlob(getOne);
+    bucketReturn(blobBucket, getOne);
+    bucketQuerey(blobBucket);
     
     return 0;
 }

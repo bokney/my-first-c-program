@@ -5,66 +5,81 @@
 
 #include <stdlib.h>
 #include "lists.h"
+#include "buckets.h"
 
-listNode *spare = NULL;
+// // // // // // // // // // // // // // // //
 
-listNode *listNodeCreate(void) {
+struct listNode_ {
+    void *data;
+    struct listNode_ *next;
+};
+
+// // // // // // // // // // // // // // // //
+
+bucket *listBucket = NULL;
+
+// // // // // // // // // // // // // // // //
+
+void *listNodeCreate(void);
+void listNodeInit(void *target);
+void listNodeDestroy(void *target);
+
+// // // // // // // // // // // // // // // //
+
+void *listNodeCreate(void) {
     listNode *newNode;
-    if (spare != NULL) {
-        newNode = spare;
-        spare = spare->next;
-        newNode->next = NULL;
-    } else {
-        newNode = (listNode *) malloc(sizeof(listNode));
-        if (newNode == NULL) {
-            printf("error - failed to malloc new listNode\n");
-            exit(1);
-        }
+    newNode = (listNode *) malloc(sizeof(listNode));
+    if (newNode == NULL) {
+        printf("error - failed to malloc new listNode\n");
+        exit(1);
     }
     return newNode;
 }
 
-void listNodeDestroy(listNode *target) {
-    if (target == NULL) {
+void listNodeInit(void *target) {
+    listNode *node = target;
+    if (target != NULL) {
+        node->data = NULL;
+        node->next = NULL;
+    } else {
+        printf("error - tried to initialise a NULL listNode\n");
+        exit(1);
+    }
+}
+
+void listNodeDestroy(void *target) {
+    listNode *node = target;
+    if (node == NULL) {
         printf("error - tried to free NULL listNode\n");
         exit(1);
     }
-    if (target->data != NULL) {
+    if (node->data != NULL) {
         printf("error - listNode data should be NULL before destroying\n");
-        target->data = NULL;
+        node->data = NULL;
     }
-    target->next = spare;
-    spare = target;
+    free(node);
 }
 
-unsigned int listNodeCountSpare(void) {
-    int i = 0;
-    listNode *traversal = spare;
-    while (traversal != NULL) {
-        traversal = traversal->next;
-        i++;
-    }
-    return i;
-}
+// // // // // // // // // // // // // // // //
 
-void listNodeDestroySpare(void) {
-    listNode *traversal = spare;
-    while (traversal != NULL) {
-        traversal = spare->next;
-        free(spare);
-        spare = traversal;
+listNode *listNodeRetrieve(void) {
+    if (listBucket == NULL) {
+        listBucket = bucketCreate();
+        bucketSetRoutines(listBucket, listNodeCreate,
+                          listNodeInit, listNodeDestroy);
     }
+    return bucketRequest(listBucket);
 }
 
 void listPrepend(listNode **target, void *data) {
-    listNode *newNode = listNodeCreate();
+    listNode *newNode = listNodeRetrieve();
     newNode->data = data;
     newNode->next = *target;
     *target = newNode;
 }
 
 void listAppend(listNode **target, void *data) {
-    listNode *newNode = listNodeCreate();
+    listNode *newNode = listNodeRetrieve();
     newNode->data = data;
     newNode->next = NULL;
     if (!*target) {
@@ -79,7 +94,7 @@ void listAppend(listNode **target, void *data) {
 }
 
 void listInsert(listNode **target, void *data, unsigned int position) {
-    listNode *newNode = listNodeCreate();
+    listNode *newNode = listNodeRetrieve();
     newNode->data = data;
     if (position == 0) {
         *target = newNode;
@@ -121,7 +136,7 @@ void *listRemoveNode(listNode **target, unsigned int position) {
             *target = remove->next;
             data = remove->data;
             remove->data = NULL;
-            listNodeDestroy(remove);
+            bucketReturn(listBucket, remove);
         } else goto nope;
     } else {
         listNode *traversal = *target;
@@ -139,7 +154,7 @@ void *listRemoveNode(listNode **target, unsigned int position) {
         previous->next = traversal->next;
         data = traversal->data;
         traversal->data = NULL;
-        listNodeDestroy(traversal);
+        bucketReturn(listBucket, traversal);
     }
     return data;
 }
@@ -164,4 +179,8 @@ void listReverse(listNode **target) {
         current = next;
     }
     *target = previous;
+}
+
+void quereyListBucket(void) {
+    bucketQuerey(listBucket);
 }

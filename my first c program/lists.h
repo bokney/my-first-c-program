@@ -8,16 +8,7 @@
 
 #include <stdio.h>
 
-typedef struct listNode_ {
-    void *data;
-    struct listNode_ *next;
-} listNode;
-
-listNode *listNodeCreate(void);
-void listNodeDestroy(listNode *target);
-
-unsigned int listNodeCountSpare(void);
-void listNodeDestroySpare(void);
+typedef struct listNode_ listNode;
 
 void listPrepend(listNode **target, void *data);
 void listAppend(listNode **target, void *data);
@@ -28,5 +19,7 @@ void *listRemoveNode(listNode **target, unsigned int position);
 
 unsigned int listLength(listNode *target);
 void listReverse(listNode **target);
+
+void quereyListBucket(void);
 
 #endif /* lists_h */
