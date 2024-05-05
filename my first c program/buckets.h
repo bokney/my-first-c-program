@@ -3,6 +3,8 @@
 //  my first c program
 //  30/04/2024
 
+// re-do as strategy
+
 #ifndef buckets_h
 #define buckets_h
 

@@ -4,25 +4,13 @@
 //  Created by Cris Jarvis on 21/04/2024.
 
 #include <stdlib.h>
+#include "listNodeAccess.h"
 #include "lists.h"
 #include "buckets.h"
 
 // // // // // // // // // // // // // // // //
 
-struct listNode_ {
-    void *data;
-    struct listNode_ *next;
-};
-
-// // // // // // // // // // // // // // // //
-
 bucket *listBucket = NULL;
-
-// // // // // // // // // // // // // // // //
-
-void *listNodeCreate(void);
-void listNodeInit(void *target);
-void listNodeDestroy(void *target);
 
 // // // // // // // // // // // // // // // //
 
@@ -62,7 +50,7 @@ void listNodeDestroy(void *target) {
 
 // // // // // // // // // // // // // // // //
 
-listNode *listNodeRetrieve(void) {
+listNode *listBucketDelve(void) {
     if (listBucket == NULL) {
         listBucket = bucketCreate();
         bucketSetRoutines(listBucket, listNodeCreate,
@@ -72,14 +60,14 @@ listNode *listNodeRetrieve(void) {
 }
 
 void listPrepend(listNode **target, void *data) {
-    listNode *newNode = listNodeRetrieve();
+    listNode *newNode = listBucketDelve();
     newNode->data = data;
     newNode->next = *target;
     *target = newNode;
 }
 
 void listAppend(listNode **target, void *data) {
-    listNode *newNode = listNodeRetrieve();
+    listNode *newNode = listBucketDelve();
     newNode->data = data;
     newNode->next = NULL;
     if (!*target) {
@@ -94,7 +82,7 @@ void listAppend(listNode **target, void *data) {
 }
 
 void listInsert(listNode **target, void *data, unsigned int position) {
-    listNode *newNode = listNodeRetrieve();
+    listNode *newNode = listBucketDelve();
     newNode->data = data;
     if (position == 0) {
         *target = newNode;
@@ -181,6 +169,11 @@ void listReverse(listNode **target) {
     *target = previous;
 }
 
+void listBucketDestroy(void) {
+    bucketDestroy(listBucket);
+}
+
 void quereyListBucket(void) {
+    printf("Quereying listBucket:\n\t");
     bucketQuerey(listBucket);
 }

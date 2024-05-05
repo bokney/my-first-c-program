@@ -1,36 +1,25 @@
 
 //  stacks.c
 //  my first c program
-//  Created by Cris Jarvis on 21/04/2024.
+//  04/05/2024
 
 //  stack - last in first out
 
 #include <stdlib.h>
 #include "stacks.h"
 
-stack *stackCreate(void) {
-    return NULL;
+void stackPush(stack **target, void *data) {
+    listAppend(target, data);
 }
 
-void stackDestroy(stack *target) {
-    /*
-    if (target != NULL) {
-        listNode *traversal = target->list;
-        listNode *previous = traversal;
-        while (traversal != NULL) {
-            traversal = traversal->next;
-            listNodeDestroy(previous);
-            previous = traversal;
-        }
-    }
-    free(target);
-    */
+void *stackPop(stack **target) {
+    return listRemoveNode(target, 0);
 }
 
-void stackPush(stack *target, void *data) {
-    listPrepend(&target, data);
+void stackReverse(stack **target) {
+    listReverse(target);
 }
 
-void *stackPop(stack *target) {
-    return listRemoveNode(&target, 0);
+unsigned int stackLength(stack *target) {
+    return listLength(target);
 }

@@ -18,11 +18,20 @@ struct bucket_ {
 
 // // // // // // // // // // // // // // // //
 
+listNode *spare = NULL;
+
+// // // // // // // // // // // // // // // //
+
 void *bucketCreate(void) {
-    bucket *newBucket = (bucket *) malloc(sizeof(bucket));
-    if (newBucket == NULL) {
-        printf("error creating new bucket\n");
-        exit(1);
+    bucket *newBucket;
+    if (spare == NULL) {
+        newBucket = (bucket *) malloc(sizeof(bucket));
+        if (newBucket == NULL) {
+            printf("error creating new bucket\n");
+            exit(1);
+        }
+    } else {
+        newBucket = listRemoveNode(&spare, 0);
     }
     bucketInit(newBucket);
     return newBucket;
@@ -42,8 +51,12 @@ void bucketDestroy(bucket *target) {
     }
     int length = listLength(target->list);
     for (int i = 0; i < length; i++) {
-        free(listRemoveNode(&target->list, 0));
+        //target->destroy(target->list);
+        // have a think
+        //free(listRemoveNode(&target->list, 0));
     }
+    // free(target);
+    listPrepend(&spare, target);
 }
 
 // // // // // // // // // // // // // // // //

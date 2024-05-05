@@ -1,7 +1,7 @@
 
 //  main.c
 //  my first c program
-//  Created by Cris Jarvis on 20/04/2024.
+//  20/04/2024
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -55,6 +55,7 @@ void printListLength(listNode *list) {
 
 void printReportSpare(void) {
     //printf("there are currently %u spare nodes\n", listNodeCountSpare());
+    quereyListBucket();
 }
 
 void printNewLine(void) {
@@ -109,7 +110,6 @@ int main(int argc, const char * argv[]) {
     printf("Removing...\n");
     //int l = listLength(theList) - 1;
     for (int i = 0; i  < 2; i++) {
-        
         int j = (int) listRemoveNode(&theList, 1);
         printf("removed %i, data = %i\n", i, j);
         printList(theList);
@@ -130,6 +130,7 @@ int main(int argc, const char * argv[]) {
     
     bucket *blobBucket = bucketCreate();
     bucketSetRoutines(blobBucket, blobCreate, blobInit, blobDestroy);
+    printf("Quereying blobBucket:\n\t");
     bucketQuerey(blobBucket);
     
     blob *getOne = bucketRequest(blobBucket);
@@ -140,7 +141,10 @@ int main(int argc, const char * argv[]) {
     
     printBlob(getOne);
     bucketReturn(blobBucket, getOne);
+    printf("Quereying blobBucket:\n\t");
     bucketQuerey(blobBucket);
+    
+    bucketDestroy(blobBucket);
     
     return 0;
 }

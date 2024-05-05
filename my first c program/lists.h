@@ -1,7 +1,7 @@
 
 //  lists.h
 //  my first c program
-//  Created by Cris Jarvis on 21/04/2024.
+//  21/04/2024
 
 #ifndef lists_h
 #define lists_h
@@ -20,6 +20,7 @@ void *listRemoveNode(listNode **target, unsigned int position);
 unsigned int listLength(listNode *target);
 void listReverse(listNode **target);
 
+void listBucketDestroy(void);
 void quereyListBucket(void);
 
 #endif /* lists_h */
